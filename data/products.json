@@ -1,0 +1,62 @@
+[
+    {
+        "title": "lightweight black jacket",
+        "product_type": "jacket",
+        "price": 100.0,
+        "attrs": [
+            "lightweight",
+            "black"
+        ]
+    },
+    {
+        "title": "midweight black jacket",
+        "product_type": "jacket",
+        "price": 100.0,
+        "attrs": [
+            "midweight",
+            "black"
+        ]
+    },
+    {
+        "title": "heavyweight black jacket",
+        "product_type": "jacket",
+        "price": 100.0,
+        "attrs": [
+            "heavyweight",
+            "black"
+        ]
+    },
+    {
+        "title": "lightweight blue jacket",
+        "product_type": "jacket",
+        "price": 100.0,
+        "attrs": [
+            "lightweight",
+            "blue"
+        ]
+    },
+    {
+        "title": "midweight blue jacket",
+        "product_type": "jacket",
+        "price": 100.0,
+        "attrs": [
+            "midweight",
+            "blue"
+        ]
+    },
+    {
+        "title": "heavyweight blue jacket",
+        "product_type": "jacket",
+        "price": 100.0,
+        "attrs": [
+            "heavyweight",
+            "blue"
+        ]
+    },
+    {
+        "title": "packable mosquito net",
+        "product_type": "mosquito net",
+        "price": "10",
+        "attrs": [ "packable" ]
+    }
+]

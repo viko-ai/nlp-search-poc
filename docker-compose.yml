@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+    elasticsearch-7:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.14.2
+        container_name: elasticsearch-7
+        environment:
+            - discovery.type=single-node
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - "xpack.security.enabled=false"
+        volumes:
+            - elasticsearch-7:/usr/share/elasticsearch/data
+        ports:
+            - "9200:9200"
+        labels:
+            - co.elastic.logs/module=elasticsearch
+            - co.elastic.metrics/module=elasticsearch
+    nlp-search:
+        image: nlp-search
+        container_name: nlp-search
+        environment:
+            - "ELASTIC_SEARCH_HOST=elasticsearch-7"
+            - "ELASTIC_SEARCH_PORT=9200"
+        ports:
+            - "8000:8000"
+        depends_on:
+            - elasticsearch-7
+volumes:
+    elasticsearch-7:
+      driver: local
