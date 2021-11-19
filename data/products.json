@@ -1,0 +1,98 @@
+[
+    {
+        "title": "lightweight black jacket",
+        "product_type": "jacket",
+        "price": 100.0,
+        "colors": [
+            "black"
+        ],
+        "attrs": [
+            "lightweight"
+        ]
+    },
+    {
+        "title": "waterproof black jacket",
+        "product_type": "jacket",
+        "price": 150.0,
+        "colors": [
+            "black"
+        ],
+        "attrs": [
+            "waterproof"
+        ]
+    },
+    {
+        "title": "windproof black jacket",
+        "product_type": "jacket",
+        "price": 200.0,
+        "colors": [
+            "black"
+        ],
+        "attrs": [
+            "windproof"
+        ]
+    },
+    {
+        "title": "lightweight blue jacket",
+        "product_type": "jacket",
+        "price": 100.0,
+        "colors": [
+            "blue"
+        ],
+        "attrs": [
+            "lightweight"
+        ]
+    },
+    {
+        "title": "waterproof blue jacket",
+        "product_type": "jacket",
+        "price": 150.0,
+        "colors": [
+            "blue"
+        ],
+        "attrs": [
+            "waterproof"
+        ]
+    },
+    {
+        "title": "windproof blue jacket",
+        "product_type": "jacket",
+        "price": 200.0,
+        "colors": [
+            "blue"
+        ],
+        "attrs": [
+            "windproof"
+        ]
+    },
+    {
+        "title": "packable mosquito net",
+        "product_type": "mosquito net",
+        "price": "10",
+        "colors": [],
+        "attrs": [
+            "packable"
+        ]
+    },
+    {
+        "title": "packable travel bag",
+        "product_type": "packable bag",
+        "price": "20",
+        "colors": [],
+        "attrs": [
+            "packable"
+        ]
+    },
+    {
+        "title": "burgundy organic cotton jacket",
+        "product_type": "jacket",
+        "price": 100.0,
+        "colors": [
+            "burgundy"
+        ],
+        "attrs": [
+            "organic",
+            "cotton"
+        ]
+    }
+]
