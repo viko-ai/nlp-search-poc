@@ -1,15 +1,36 @@
 # NLP & Elasticsearch powered product search
 
-**Note:** this README assumes you already checked out and ran the 1.0-es-basic tag version
+**Note:** this README assumes you already checked out and ran the 1.5-es-improved tag version
 
-## Improvements
+## Introducing NLP
 
-Instead of searching against a single field this code searches against the **product_type** and **attrs** fields. The
-query **must** match against product_type and **should** match against the attrs. On the face of it, this now works as
-expected:
+The underlying problem with previous versions of this app is that we don't actually understand what the user is asking
+for. As humans, we understand that given the query 'a packable jacket' the user wants a jacket (product) with the
+attribute/adjective of being packable. However, elasticsearch, like all full text search databases doesn't understand
+this. It works at a field and term level - it doesn't understand human language. That's where NLP/NLU comes into it's
+own.
+
+This version of the code introduces very basic NLP capabilities, allowing us to distinguish between the desired product
+and desired product attributes. It uses the Spacy framework to perform very primitive Named Entity Recognition (NER).
+This is absolutely not an NLP or Spacy tutorial, the code and NLP model used is deliberately very basic. The purpose of
+this code is simply to show how NLP can complement traditional full text search, making it much more powerful.
+
+Subsequent versions of the app will extend the concept.
+
+## Getting started
+
+Install the new dependency:
 
 ```shell
-$  bin/query.sh 'packable jacket'
+$ pip install -r requirements.txt
+...
+Successfully installed spacy-3.1.4
+```
+
+## Query again
+
+```shell
+$ bin/query.sh 'packable jacket'
 ```
 
 ```json
@@ -28,59 +49,25 @@ $  bin/query.sh 'packable jacket'
 }
 ```
 
-## Still broken
+## Changes to the code
 
-Elasticsearch's match query uses OR by default. So the query can be translated as:
+The major change is the introduction of the NerPredictor in the new src/ner_predictor.py module. This class uses a
+pretrained NLP model to perform Named Entity Recognition on the full text search query. It identifies the desired
+product along with the desirable product attributes. This structured query is then passed into the elastic search query.
 
-_product_type must include jacket or packable_  
-_attrs should include jacket or packable_
-
-What happens if we have a product with the word 'packable' in the product type e.g. a 'packable bag'?
-
-## Add another product
-
-Reset the index and ingest another product, the packable bag
+As the real "magic" happens in the NerPredictor, I've also added a new endpoint and helper script which simply performs
+Named Entity Recognition on a query:
 
 ```shell
-$ python -m src.tools reset
-productRepository  INFO      Dropping products index
-...
-productRepository  INFO      Ingesting packable travel bag
-```
-
-Perform the query again:
-
-```shell
-$  bin/query.sh 'packable jacket'
+$ bin/predict.sh 'packable jacket'
 ```
 
 ```json
 {
-    "results": [
-        {
-            "title": "packable travel bag",
-            "product_type": "packable bag",
-            "price": 20,
-            "attrs": [
-                "packable"
-            ]
-        }
-    ]
+  "text": "packable jacket",
+  "product": "jacket",
+  "attrs": [
+    "packable"
+  ]
 }
 ```
-
-## The problem remains
-
-The underlying problem is still there. We can do all sorts of clever things with elasticsearch - applying custom
-tokenizers and analysers, boosting field, generating sophisticated queries etc. These tricks tackle the problem in the
-wrong way. 
-
-> Instead of understanding what the user is asking for, we use our data to infer what we think they should be
-asking for
-
-It's a bit like a sales assistant telling a shopper "you want a jacket? ok these bags are truly unique ..." 🤨
-
-## NLP to the rescue
-
-In subsequent versions of this app, we'll implement basic NLP capabilities. This will allow us to fully understand
-the user's search query.

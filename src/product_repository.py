@@ -5,6 +5,7 @@ from elasticsearch import AsyncElasticsearch
 from pydantic import BaseModel
 
 from src.es_config import EsConfig
+from src.ner_predictor import NerPrediction
 
 
 class Product(BaseModel):
@@ -64,24 +65,28 @@ class ProductRepository:
         self._LOGGER.info(f"Ingesting {product.title}")
         await self._ES.index(index=self._INDEX_NAME, document=product.dict())
     
-    async def search(self, query: str) -> List[Product]:
+    async def search(self, query: NerPrediction):
         """Search for a match against the title field"""
         
-        self._LOGGER.info(f"Searching for: {query}")
+        product = query.product
+        flat_attrs = ' '.join(query.attrs)
+        self._LOGGER.info(f"Searching for product: \"{product}\" with attrs: \"{flat_attrs}\"")
         
-        # On the face of it this works i.e. a query for "packable jacket" returns a lightweight jacket.
-        # However, by default a match query performs an OR i.e. product_type must include 'packable' or 'jacket'
-        # What would happen if a product type included the word 'packable' e.g. 'packable bag' ?
+        # NLU allows us to come at this from a different angle.
+        # Instead of specifying the index fields that must be matched
+        # we concentrate on the terms and phrases the user regards as important.
+        # By understanding what product the user is looking for, along with it's
+        # desirable attributes we can perform much more accurate searches
         es_query: Dict = {
             'bool': {
                 'must': {
                     'match': {
-                        'product_type': query
+                        'title': product
                     }
                 },
                 'should': {
                     'match': {
-                        'attrs': query
+                        'attrs': flat_attrs
                     }
                 }
             }
