@@ -57,6 +57,16 @@
         "title": "packable mosquito net",
         "product_type": "mosquito net",
         "price": "10",
-        "attrs": [ "packable" ]
+        "attrs": [
+            "packable"
+        ]
+    },
+    {
+        "title": "packable travel bag",
+        "product_type": "packable bag",
+        "price": "20",
+        "attrs": [
+            "packable"
+        ]
     }
 ]

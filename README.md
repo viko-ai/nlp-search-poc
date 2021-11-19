@@ -1,96 +1,15 @@
 # NLP & Elasticsearch powered product search
 
-This is a trivial app which simply searches against a single field in an elasticsearch index. This version of the app is
-intentionally naive, but designed to illustrate a problem:
+**Note:** this README assumes you already checked out and ran the 1.0-es-basic tag version
 
-1. We have various jackets in the database (elasticsearch index)
-2. We also have a 'packable mosquito net'
-3. The user searches for a 'packable jacket'
+## Improvements
 
-As humans, we understand that a 'lightweight jacket' would be a good candidate. We know this because we understand that
-the user is looking for a jacket first and foremost. However, elasticsearch's TF-**IDF** algorithm thinks the 'packable
-mosquito net' is the best match, because it includes the word 'packable'.
-
-Subsequent versions of the app (git tags) will try to solve the problem. Firstly by changing the elasticsearch query,
-then finally by employing Natural Language Understanding.
-
-## Getting started
-
-1. Setup your environment
-2. Fire up an elasticsearch instance
-3. Create the index and mapping
-4. Import some test data
-5. Fire up a simple webserver to handle search queries
-6. Cleanup
-
-### Setup your environment
-
-The python code needs a 3.9.7+ environment. I recommend running this in a virtualenv using
-either [venv](https://docs.python.org/3/library/venv.html)
-or [pyenv/virtualenv](https://github.com/pyenv/pyenv-virtualenv)
+Instead of searching against a single field this code searches against the **product_type** and **attrs** fields. The
+query **must** match against product_type and **should** match against the attrs. On the face of it, this now works as
+expected:
 
 ```shell
-$ pyenv install 3.9.7
-$ pyenv virtualenv 3.9.7 nlp-search
-$ pyenv local nlp-search 
-$ pip install -U pip
-$ pip install -r requirements.txt
-```
-
-### Run elasticsearch
-
-I've provided a docker-compose.yml file, so you can fire up a simple elasticsearch instance
-
-```shell
-$ docker-compose up -d elasticsearch-7
-```
-
-### Test the setup
-
-Python dependencies and paths can be tricky, so I provided a simple script to check everything is working as expected.
-Note: elasticsearch can take a few seconds to come online.
-
-```shell
-$ python -m src.ping
-Elasticsearch alive: True
-```
-
-### Create the index & import test data
-
-```shell
-$ python -m src.tools create
-productRepository  INFO      Creating products index
-productRepository  INFO      products created
-$ python -m src.tools ingest
-productRepository  INFO      Ingesting lightweight black jacket
-productRepository  INFO      Ingesting midweight black jacket
-...
-```
-
-### Run the server
-
-I created a wrapper shell script to fire up uvicorn/fastapi
-
-```shell
-$ bin/server.sh
-uvicorn.error    INFO      Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-...
-```
-
-### Perform the search
-
-Make a GET request to http://localhost:8000 passing a json body:
-
-```json
-{
-    "query": "packable jacket"
-}
-```
-
-Postman is probably the best tool for this, but I've also included a shell script which uses curl and jq
-
-```shell
-$ bin/query.sh 'packable jacket'
+$  bin/query.sh 'packable jacket'
 ```
 
 ```json
@@ -109,62 +28,59 @@ $ bin/query.sh 'packable jacket'
 }
 ```
 
-**Important:** If you choose to use this script you should enclose your search query in single quotes to avoid variable
-expansion. This could be a problem if for example you perform this query:
+## Still broken
+
+Elasticsearch's match query uses OR by default. So the query can be translated as:
+
+_product_type must include jacket or packable_  
+_attrs should include jacket or packable_
+
+What happens if we have a product with the word 'packable' in the product type e.g. a 'packable bag'?
+
+## Add another product
+
+Reset the index and ingest another product, the packable bag
 
 ```shell
-$ bin/query.sh "lightweight jacket less that $300"
-```
-
-### Cleanup
-
-Kill the running server with Ctrl-C (don't worry about the asyncio.exceptions.CancelledError)
-
-Drop the index
-
-```shell
-$ python -m src.tools drop
+$ python -m src.tools reset
 productRepository  INFO      Dropping products index
-productRepository  INFO      products dropped
+...
+productRepository  INFO      Ingesting packable travel bag
 ```
 
-Take down elasticsearch
+Perform the query again:
 
 ```shell
-$ docker-compose down
-Stopping elasticsearch-7 ... done
-Removing elasticsearch-7 ... done
-Removing network nlp-search_default
+$  bin/query.sh 'packable jacket'
 ```
 
-## Docker (optional)
-
-I've provided a Dockerfile in case you want to run everything inside docker
-
-```shell
-docker build -t nlp-search .
+```json
+{
+    "results": [
+        {
+            "title": "packable travel bag",
+            "product_type": "packable bag",
+            "price": 20,
+            "attrs": [
+                "packable"
+            ]
+        }
+    ]
+}
 ```
 
-Then run elasticsearch and the server
+## The problem remains
 
-```shell
-docker-compose up -d
-```
+The underlying problem is still there. We can do all sorts of clever things with elasticsearch - applying custom
+tokenizers and analysers, boosting field, generating sophisticated queries etc. These tricks tackle the problem in the
+wrong way. 
 
-### Ingesting test data
+> Instead of understanding what the user is asking for, we use our data to infer what we think they should be
+asking for
 
-If you also want to use docker to ingest the test data into elasticsearch you can do so:
+It's a bit like a sales assistant telling a shopper "you want a jacket? ok these bags are truly unique ..." 🤨
 
-```shell
-docker run -it --rm --network nlp-search_default -e "ELASTIC_SEARCH_HOST=elasticsearch-7" nlp-search "python" "-m" "src.tools" "reset"
-```
+## NLP to the rescue
 
-**Note**: The network name is determined by docker's [networking rules](https://docs.docker.com/compose/networking/)
-
-### Querying
-
-docker-compose exposes the server's port 8000, so you can query as before:
-
-```shell
-$ bin/query.sh 'packable jacket'
-```
+In subsequent versions of this app, we'll implement basic NLP capabilities. This will allow us to fully understand
+the user's search query.

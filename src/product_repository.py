@@ -69,9 +69,21 @@ class ProductRepository:
         
         self._LOGGER.info(f"Searching for: {query}")
         
+        # On the face of it this works i.e. a query for "packable jacket" returns a lightweight jacket.
+        # However, by default a match query performs an OR i.e. product_type must include 'packable' or 'jacket'
+        # What would happen if a product type included the word 'packable' e.g. 'packable bag' ?
         es_query: Dict = {
-            'match': {
-                'title': query
+            'bool': {
+                'must': {
+                    'match': {
+                        'product_type': query
+                    }
+                },
+                'should': {
+                    'match': {
+                        'attrs': query
+                    }
+                }
             }
         }
         
