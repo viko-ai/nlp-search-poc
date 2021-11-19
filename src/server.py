@@ -26,7 +26,7 @@ def startup_event():
 @app.get("/ping", response_class=PlainTextResponse)
 async def ping():
     es_status = await product_repository.ping()
-    return {'elasticsearch-alive': es_status}
+    return f"Elasticsearch alive: {es_status}"
 
 
 @app.get("/predict")
@@ -37,10 +37,10 @@ def predict(cmd: SearchCommand):
 @app.get("/search")
 async def search(cmd: SearchCommand):
     ner_prediction = ner_predictor.predict(cmd.query)
-    products = []
+    results = []
     if ner_prediction.is_valid():
-        products = await product_repository.search(ner_prediction)
-    return {'results': products}
+        results = await product_repository.search(ner_prediction)
+    return {'ner_prediction': ner_prediction, 'results': results}
 
 
 @app.on_event("shutdown")

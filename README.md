@@ -27,6 +27,12 @@ $ pip install -r requirements.txt
 Successfully installed spacy-3.1.4
 ```
 
+Rerun the server
+
+```shell
+$ bin/server.sh
+```
+
 ## Query again
 
 ```shell
