@@ -24,7 +24,7 @@ def startup_event():
 @app.get("/ping", response_class=PlainTextResponse)
 async def ping():
     es_status = await product_repository.ping()
-    return {'elasticsearch-alive': es_status}
+    return f"Elasticsearch alive: {es_status}"
 
 
 @app.get("/search")
