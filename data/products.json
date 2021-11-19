@@ -3,60 +3,73 @@
         "title": "lightweight black jacket",
         "product_type": "jacket",
         "price": 100.0,
-        "attrs": [
-            "lightweight",
+        "colors": [
             "black"
+        ],
+        "attrs": [
+            "lightweight"
         ]
     },
     {
         "title": "midweight black jacket",
         "product_type": "jacket",
-        "price": 100.0,
-        "attrs": [
-            "midweight",
+        "price": 150.0,
+        "colors": [
             "black"
+        ],
+        "attrs": [
+            "midweight"
         ]
     },
     {
         "title": "heavyweight black jacket",
         "product_type": "jacket",
-        "price": 100.0,
-        "attrs": [
-            "heavyweight",
+        "price": 200.0,
+        "colors": [
             "black"
+        ],
+        "attrs": [
+            "heavyweight"
         ]
     },
     {
         "title": "lightweight blue jacket",
         "product_type": "jacket",
         "price": 100.0,
-        "attrs": [
-            "lightweight",
+        "colors": [
             "blue"
+        ],
+        "attrs": [
+            "lightweight"
         ]
     },
     {
         "title": "midweight blue jacket",
         "product_type": "jacket",
-        "price": 100.0,
-        "attrs": [
-            "midweight",
+        "price": 150.0,
+        "colors": [
             "blue"
+        ],
+        "attrs": [
+            "midweight"
         ]
     },
     {
         "title": "heavyweight blue jacket",
         "product_type": "jacket",
-        "price": 100.0,
-        "attrs": [
-            "heavyweight",
+        "price": 200.0,
+        "colors": [
             "blue"
+        ],
+        "attrs": [
+            "heavyweight"
         ]
     },
     {
         "title": "packable mosquito net",
         "product_type": "mosquito net",
         "price": "10",
+        "colors": [],
         "attrs": [
             "packable"
         ]
@@ -65,8 +78,21 @@
         "title": "packable travel bag",
         "product_type": "packable bag",
         "price": "20",
+        "colors": [],
         "attrs": [
             "packable"
+        ]
+    },
+    {
+        "title": "burgundy organic cotton jacket",
+        "product_type": "jacket",
+        "price": 100.0,
+        "colors": [
+            "burgundy"
+        ],
+        "attrs": [
+            "organic",
+            "cotton"
         ]
     }
 ]
