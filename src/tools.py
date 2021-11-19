@@ -17,7 +17,10 @@ async def ingest(product_repo):
 
 async def get_task(product_repo, cmd):
     """Return a coroutine which creates the index, drops it or ingests data"""
-    if cmd == 'create':
+    if cmd == 'ping':
+        es_status = await product_repo.ping()
+        print(f"Elasticsearch alive: {es_status}")
+    elif cmd == 'create':
         await product_repo.create_index()
     elif cmd == 'ingest':
         await ingest(product_repo)
@@ -29,7 +32,7 @@ async def get_task(product_repo, cmd):
         await ingest(product_repo)
 
 
-@plac.pos('cmd', "Command", choices=['create', 'drop', 'ingest', 'reset'])
+@plac.pos('cmd', "Command", choices=['ping', 'create', 'drop', 'ingest', 'reset'])
 def main(cmd):
     product_repo = ProductRepository()
     task = get_task(product_repo, cmd)

@@ -47,11 +47,11 @@ $ docker-compose up -d elasticsearch-7
 
 ### Test the setup
 
-Python dependencies and paths can be tricky, so I provided a simple script to check everything is working as expected.
+Python dependencies and paths can be tricky, so I provided a simple utility to check everything is working as expected.
 Note: elasticsearch can take a few seconds to come online.
 
 ```shell
-$ python -m src.ping
+$ python -m src.tools ping
 Elasticsearch alive: True
 ```
 
@@ -118,9 +118,13 @@ $ bin/query.sh "lightweight jacket less that $300"
 
 ### Cleanup
 
-Kill the running server with Ctrl-C (don't worry about the asyncio.exceptions.CancelledError)
+#### Kill the running server
 
-Drop the index
+Hit <kbd>Ctrl</kbd> + <kbd>c</kbd>
+
+Don't worry about the `asyncio.exceptions.CancelledError` - it's caused by the hot reload feature of the uvicorn server.
+
+#### Drop the index
 
 ```shell
 $ python -m src.tools drop
@@ -128,7 +132,7 @@ productRepository  INFO      Dropping products index
 productRepository  INFO      products dropped
 ```
 
-Take down elasticsearch
+#### Take down elasticsearch
 
 ```shell
 $ docker-compose down
