@@ -5,7 +5,6 @@ from pydantic import BaseModel
 from starlette.responses import PlainTextResponse
 
 from src.product_repository import ProductRepository
-import asyncio
 
 
 class SearchCommand(BaseModel):
@@ -37,7 +36,3 @@ async def search(cmd: SearchCommand):
 @app.on_event("shutdown")
 async def shutdown_event():
     await product_repository.shutdown()
-    # try:
-    #     asyncio.get_running_loop().stop()
-    # except Exception as e:
-    #     raise e
