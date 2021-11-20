@@ -1,6 +1,6 @@
 # NLP & Elasticsearch powered product search
 
-**Note:** this README assumes you already checked out and ran the 1.5-es-improved tag version
+**Note:** this README assumes you already followed the instructions in the 1.5-es-improved branch README
 
 ## Introducing NLP
 
@@ -19,6 +19,16 @@ Subsequent versions of the app will extend the concept.
 
 ## Getting started
 
+Kill the old server if it's still running
+
+<kbd>Ctrl</kbd> + <kbd>c</kbd>
+
+Bring up elasticsearch again if its no longer running:
+
+```shell
+$ docker-compose up -d elasticsearch-7
+```
+
 Install the new dependency:
 
 ```shell
@@ -27,7 +37,7 @@ $ pip install -r requirements.txt
 Successfully installed spacy-3.1.4
 ```
 
-Rerun the server
+Rerun the new server code
 
 ```shell
 $ bin/server.sh
@@ -36,16 +46,23 @@ $ bin/server.sh
 ## Query again
 
 ```shell
-$ bin/query.sh 'packable jacket'
+$ python -m src.client 'packable jacket'
 ```
 
 ```json
 {
+    "ner_prediction": {
+        "text": "packable jacket",
+        "product": "jacket",
+        "attrs": [
+            "packable"
+        ]
+    },
     "results": [
         {
             "title": "lightweight black jacket",
             "product_type": "jacket",
-            "price": 100,
+            "price": 100.0,
             "attrs": [
                 "lightweight",
                 "black"
@@ -61,19 +78,19 @@ The major change is the introduction of the NerPredictor in the new src/ner_pred
 pretrained NLP model to perform Named Entity Recognition on the full text search query. It identifies the desired
 product along with the desirable product attributes. This structured query is then passed into the elastic search query.
 
-As the real "magic" happens in the NerPredictor, I've also added a new endpoint and helper script which simply performs
+As the real "magic" happens in the NerPredictor, I've also added a new endpoint and client helper which simply performs
 Named Entity Recognition on a query:
 
 ```shell
-$ bin/predict.sh 'packable jacket'
+$ python -m src.client -p 'packable jacket'
 ```
 
 ```json
 {
-  "text": "packable jacket",
-  "product": "jacket",
-  "attrs": [
-    "packable"
-  ]
+    "text": "packable jacket",
+    "product": "jacket",
+    "attrs": [
+        "packable"
+    ]
 }
 ```
