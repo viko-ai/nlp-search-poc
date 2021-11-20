@@ -9,20 +9,20 @@
         ]
     },
     {
-        "title": "midweight black jacket",
+        "title": "waterproof black jacket",
         "product_type": "jacket",
         "price": 100.0,
         "attrs": [
-            "midweight",
+            "waterproof",
             "black"
         ]
     },
     {
-        "title": "heavyweight black jacket",
+        "title": "windproof black jacket",
         "product_type": "jacket",
         "price": 100.0,
         "attrs": [
-            "heavyweight",
+            "windproof",
             "black"
         ]
     },
@@ -36,20 +36,20 @@
         ]
     },
     {
-        "title": "midweight blue jacket",
+        "title": "waterproof blue jacket",
         "product_type": "jacket",
         "price": 100.0,
         "attrs": [
-            "midweight",
+            "waterproof",
             "blue"
         ]
     },
     {
-        "title": "heavyweight blue jacket",
+        "title": "windproof blue jacket",
         "product_type": "jacket",
         "price": 100.0,
         "attrs": [
-            "heavyweight",
+            "windproof",
             "blue"
         ]
     },
@@ -57,6 +57,8 @@
         "title": "packable mosquito net",
         "product_type": "mosquito net",
         "price": "10",
-        "attrs": [ "packable" ]
+        "attrs": [
+            "packable"
+        ]
     }
 ]

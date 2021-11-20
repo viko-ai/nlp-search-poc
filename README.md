@@ -1,18 +1,20 @@
 # NLP & Elasticsearch powered product search
 
 This is a trivial app which simply searches against a single field in an elasticsearch index. This version of the app is
-intentionally naive, but designed to illustrate a problem:
+intentionally naive, but designed to illustrate a problem. Imagine we are building the catalog search feature for an
+outdoor clothing & equipment store.
 
-1. We have various jackets in the database (elasticsearch index)
-2. We also have a 'packable mosquito net'
-3. The user searches for a 'packable jacket'
+1. A shopper searches for a 'packable jacket'
+2. We don't sell a 'packable jacket'
+3. We do sell many jackets (lightweight, waterproof, windproof etc)
+4. We also sell a 'packable mosquito net'
 
-As humans, we understand that a 'lightweight jacket' would be a good candidate. We know this because we understand that
-the user is looking for a jacket first and foremost. However, elasticsearch's TF-**IDF** algorithm thinks the 'packable
-mosquito net' is the best match, because it includes the word 'packable'.
+As humans, we understand that a 'lightweight jacket' would be a good candidate for this search query. We know this
+because we understand that the user is looking for a jacket first and foremost. However, elasticsearch's TF-**IDF**
+algorithm thinks the 'packable mosquito net' is the best match, because it includes the word 'packable'.
 
-Subsequent versions of the app (git tags) will try to solve the problem. Firstly by changing the elasticsearch query,
-then finally by employing Natural Language Understanding.
+Subsequent versions of this app will try to solve the problem. Firstly by changing the elasticsearch query, then finally
+by employing Natural Language Understanding.
 
 ## Getting started
 
@@ -48,7 +50,7 @@ $ docker-compose up -d elasticsearch-7
 ### Test the setup
 
 Python dependencies and paths can be tricky, so I provided a simple utility to check everything is working as expected.
-Note: elasticsearch can take a few seconds to come online.
+**Note:** elasticsearch can take a few seconds to come online.
 
 ```shell
 $ python -m src.tools ping
@@ -87,22 +89,21 @@ Make a GET request to http://localhost:8000 passing a json body:
 }
 ```
 
-Postman is probably the best tool for this, but I've also included a shell script which uses curl and jq
+Postman is probably the best tool for this, but I've also included a simple client:
 
 ```shell
-$ bin/query.sh 'packable jacket'
+$ python -m src.client 'packable jacket'
 ```
 
 ```json
 {
     "results": [
         {
-            "title": "lightweight black jacket",
-            "product_type": "jacket",
-            "price": 100,
+            "title": "packable mosquito net",
+            "product_type": "mosquito net",
+            "price": 10.0,
             "attrs": [
-                "lightweight",
-                "black"
+                "packable"
             ]
         }
     ]
@@ -113,32 +114,7 @@ $ bin/query.sh 'packable jacket'
 expansion. This could be a problem if for example you perform this query:
 
 ```shell
-$ bin/query.sh "lightweight jacket less that $300"
-```
-
-### Cleanup
-
-#### Kill the running server
-
-Hit <kbd>Ctrl</kbd> + <kbd>c</kbd>
-
-Don't worry about the `asyncio.exceptions.CancelledError` - it's caused by the hot reload feature of the uvicorn server.
-
-#### Drop the index
-
-```shell
-$ python -m src.tools drop
-productRepository  INFO      Dropping products index
-productRepository  INFO      products dropped
-```
-
-#### Take down elasticsearch
-
-```shell
-$ docker-compose down
-Stopping elasticsearch-7 ... done
-Removing elasticsearch-7 ... done
-Removing network nlp-search_default
+$ python -m src.client "lightweight jacket less that $300"
 ```
 
 ## Docker (optional)
@@ -167,8 +143,8 @@ docker run -it --rm --network nlp-search_default -e "ELASTIC_SEARCH_HOST=elastic
 
 ### Querying
 
-docker-compose exposes the server's port 8000, so you can query as before:
+docker-compose.yml exposes the server's port 8000, so you can query as before:
 
 ```shell
-$ bin/query.sh 'packable jacket'
+$ python -m src.client 'packable jacket'
 ```
