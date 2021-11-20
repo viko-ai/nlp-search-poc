@@ -20,7 +20,7 @@ class NerPrediction(BaseModel):
 class NerPredictor:
     """Predict product and product attributes using NER & simple regex"""
     
-    _COLORS: Final = {'black', 'white', 'brown', 'red', 'blue', 'green', 'orange', 'green', 'yellow'}
+    _COLORS: Final = {'black', 'gray', 'white', 'brown', 'red', 'blue', 'navy', 'green', 'orange', 'green', 'yellow'}
     
     def __init__(self):
         # ner_outdoor_equipment_sm is a really simple nlp model, trained on around 200 phrases

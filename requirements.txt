@@ -6,4 +6,5 @@ uvicorn>=0.15.0
 aiohttp>=3.8.1
 elasticsearch>=7.15.2
 mypy>=0.910
+requests>=2.26.0
 spacy==3.1.4

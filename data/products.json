@@ -11,25 +11,25 @@
         ]
     },
     {
-        "title": "midweight black jacket",
+        "title": "waterproof black jacket",
         "product_type": "jacket",
         "price": 150.0,
         "colors": [
             "black"
         ],
         "attrs": [
-            "midweight"
+            "waterproof"
         ]
     },
     {
-        "title": "heavyweight black jacket",
+        "title": "windproof black jacket",
         "product_type": "jacket",
         "price": 200.0,
         "colors": [
             "black"
         ],
         "attrs": [
-            "heavyweight"
+            "windproof"
         ]
     },
     {
@@ -44,25 +44,25 @@
         ]
     },
     {
-        "title": "midweight blue jacket",
+        "title": "waterproof blue jacket",
         "product_type": "jacket",
         "price": 150.0,
         "colors": [
             "blue"
         ],
         "attrs": [
-            "midweight"
+            "waterproof"
         ]
     },
     {
-        "title": "heavyweight blue jacket",
+        "title": "windproof blue jacket",
         "product_type": "jacket",
         "price": 200.0,
         "colors": [
             "blue"
         ],
         "attrs": [
-            "heavyweight"
+            "windproof"
         ]
     },
     {
