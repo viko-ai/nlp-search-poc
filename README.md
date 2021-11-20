@@ -1,6 +1,18 @@
 # NLP & Elasticsearch powered product search
 
-**Note:** this README assumes you already checked out and ran the 1.0-es-basic tag version
+**Note:** this README assumes you already followed the instructions in the 1.0-es-basic branch README
+
+## Setup
+
+Kill the old 1.0 server if it's still running and restart it with the 1.5 code
+
+Hit <kbd>Ctrl</kbd> + <kbd>c</kbd>
+
+Don't worry about the `asyncio.exceptions.CancelledError` - it's caused by the hot reload feature of the uvicorn server.
+
+```shell
+$ bin/server.sh
+```
 
 ## Improvements
 
@@ -9,7 +21,7 @@ query **must** match against product_type and **should** match against the attrs
 expected:
 
 ```shell
-$  bin/query.sh 'packable jacket'
+$  python -m src.client 'packable jacket'
 ```
 
 ```json
@@ -51,7 +63,7 @@ productRepository  INFO      Ingesting packable travel bag
 Perform the query again:
 
 ```shell
-$  bin/query.sh 'packable jacket'
+$  python -m src.client 'packable jacket'
 ```
 
 ```json
