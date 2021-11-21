@@ -33,8 +33,8 @@ or [pyenv/virtualenv](https://github.com/pyenv/pyenv-virtualenv)
 
 ```shell
 $ pyenv install 3.9.7
-$ pyenv virtualenv 3.9.7 nlp-search
-$ pyenv local nlp-search 
+$ pyenv virtualenv 3.9.7 nlp-search-poc
+$ pyenv local nlp-search-poc 
 $ pip install -U pip
 $ pip install -r requirements.txt
 ```
@@ -122,13 +122,13 @@ $ python -m src.client "lightweight jacket less that $300"
 I've provided a Dockerfile in case you want to run everything inside docker
 
 ```shell
-docker build -t nlp-search .
+$ docker build -t nlp-search-poc .
 ```
 
 Then run elasticsearch and the server
 
 ```shell
-docker-compose up -d
+$ docker-compose up -d
 ```
 
 ### Ingesting test data
@@ -136,7 +136,7 @@ docker-compose up -d
 If you also want to use docker to ingest the test data into elasticsearch you can do so:
 
 ```shell
-docker run -it --rm --network nlp-search_default -e "ELASTIC_SEARCH_HOST=elasticsearch-7" nlp-search "python" "-m" "src.tools" "reset"
+$ docker run -it --rm --network nlp-search-poc_default -e "ELASTIC_SEARCH_HOST=elasticsearch-7" nlp-search-poc "python" "-m" "src.tools" "reset"
 ```
 
 **Note**: The network name is determined by docker's [networking rules](https://docs.docker.com/compose/networking/)

@@ -15,9 +15,9 @@ services:
         labels:
             - co.elastic.logs/module=elasticsearch
             - co.elastic.metrics/module=elasticsearch
-    nlp-search:
-        image: nlp-search
-        container_name: nlp-search
+    nlp-search-poc:
+        image: nlp-search-poc
+        container_name: nlp-search-poc
         environment:
             - "ELASTIC_SEARCH_HOST=elasticsearch-7"
             - "ELASTIC_SEARCH_PORT=9200"
