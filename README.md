@@ -27,6 +27,8 @@ Import the new structured data
 
 ```shell
 $ python -m src.tools reset
+...
+productRepository INFO Ingesting burgundy organic cotton jacket
 ```
 
 Rerun the server
@@ -41,6 +43,27 @@ Try a query which includes a color and price
 
 ```shell
 $ python -m src.client 'black waterproof jacket less than $200'
+```
+
+or 
+
+```shell
+$ python -m src.client -p 'black waterproof jacket less than $200'
+```
+
+```json
+{
+    "text": "black waterproof jacket less than $200",
+    "product": "jacket",
+    "price_from": null,
+    "price_to": 200.0,
+    "colors": [
+        "black"
+    ],
+    "attrs": [
+        "waterproof"
+    ]
+}
 ```
 
 ## Code changes
