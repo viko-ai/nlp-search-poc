@@ -21,7 +21,7 @@ query **must** match against product_type and **should** match against the attrs
 expected:
 
 ```shell
-$  python -m src.client 'packable jacket'
+$ python -m src.client 'packable jacket'
 ```
 
 ```json
@@ -63,7 +63,7 @@ productRepository  INFO      Ingesting packable travel bag
 Perform the query again:
 
 ```shell
-$  python -m src.client 'packable jacket'
+$ python -m src.client 'packable jacket'
 ```
 
 ```json
