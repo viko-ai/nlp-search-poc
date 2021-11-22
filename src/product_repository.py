@@ -173,10 +173,10 @@ class ProductRepository:
         })
     
     @staticmethod
-    def _es_attrs_query(flat_attrs):
+    def _es_attrs_query(attrs):
         return {
             'match': {
-                'all': flat_attrs
+                'all': attrs
             }
         }
     
