@@ -45,12 +45,6 @@ Try a query which includes a color and price
 $ python -m src.client 'black waterproof jacket less than $200'
 ```
 
-or 
-
-```shell
-$ python -m src.client -p 'black waterproof jacket less than $200'
-```
-
 ```json
 {
     "text": "black waterproof jacket less than $200",
