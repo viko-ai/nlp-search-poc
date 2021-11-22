@@ -77,6 +77,8 @@ maroon' or 'champagne' would work.
 
 So, from an NLP/NER perspective, we treat colors like all other generic attributes. We then use rules to identify known
 colors that match our search filters. This gives us the best of both worlds. Search filters work as expected, but we
-still support long tail searches for wacky colors. As a bonus, this also improves the overall accuracy of the model.
-Unlike most NLP applications, we're not dealing with large volumes of text (sentences or paragraphs) - trying to
-identify too many discrete entities can lead to poor precision and recall.
+still support long tail searches for wacky colors. 
+
+As a bonus, this also improves the overall accuracy of the model. Unlike most NLP applications, we have a limited amount
+of _context_ available to us in the search query. Trying to identify too many attributes that are grammatically 
+similar will reduce the overall model performance.
