@@ -69,8 +69,8 @@ class ProductRepository:
         """Search for a match against the title field"""
         
         product = query.product
-        flat_attrs = ' '.join(query.attrs)
-        self._LOGGER.info(f"Searching for product: \"{product}\" with attrs: \"{flat_attrs}\"")
+        attrs = ' '.join(query.attrs)
+        self._LOGGER.info(f"Searching for product: \"{product}\" with attrs: \"{attrs}\"")
         
         # NLU allows us to come at this from a different angle.
         # Instead of specifying the index fields that must be matched
@@ -86,7 +86,7 @@ class ProductRepository:
                 },
                 'should': {
                     'match': {
-                        'attrs': flat_attrs
+                        'attrs': attrs
                     }
                 }
             }
